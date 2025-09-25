@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Magical Reading Adventures — Enhanced v4</title>
+  <title>Magical Reading Adventures — Enhanced & Fixed</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -398,6 +398,49 @@
       100% { background: var(--success); }
     }
 
+    .vocabulary-highlight {
+      background: linear-gradient(120deg, #ffd700 0%, #ffed4e 100%);
+      color: #2d1810;
+      font-weight: 700;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.4rem;
+      border: 2px solid #e6c200;
+      box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-block;
+      margin: 0 0.1rem;
+    }
+    
+    .vocabulary-highlight::before {
+      content: "📚";
+      position: absolute;
+      top: -8px;
+      left: -6px;
+      font-size: 0.7rem;
+      background: var(--info);
+      color: white;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    
+    .vocabulary-highlight:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(255, 215, 0, 0.5);
+      background: linear-gradient(120deg, #ffe135 0%, #fff066 100%);
+    }
+    
+    .vocabulary-highlight:focus {
+      outline: 3px solid var(--info);
+      outline-offset: 2px;
+    }
+
     .comprehension-section {
       background: rgba(59, 130, 246, 0.1);
       border-radius: var(--border-radius);
@@ -440,16 +483,6 @@
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-    }
-    
-    .vocabulary-highlight {
-      background: linear-gradient(120deg, var(--warning) 0%, var(--warning) 100%);
-      background-repeat: no-repeat;
-      background-size: 100% 0.2em;
-      background-position: 0 88%;
-      font-weight: 600;
-      padding: 0.1rem 0.2rem;
-      border-radius: 0.25rem;
     }
 
     .reading-tips {
@@ -531,136 +564,6 @@
       background: var(--warning);
     }
 
-    /* Voice Settings Modal */
-    .voice-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1001;
-      backdrop-filter: blur(5px);
-    }
-    
-    .voice-modal.hidden {
-      display: none;
-    }
-    
-    .voice-modal-content {
-      background: var(--card);
-      border-radius: var(--border-radius-lg);
-      padding: 2rem;
-      max-width: 500px;
-      width: 90%;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .voice-modal-content h3 {
-      margin: 0 0 1.5rem 0;
-      font-size: 1.5rem;
-      color: var(--ink);
-      text-align: center;
-    }
-    
-    .voice-option {
-      margin: 1rem 0;
-      padding: 1rem;
-      border: 2px solid transparent;
-      border-radius: var(--border-radius);
-      background: rgba(255,255,255,0.1);
-      transition: all 0.2s ease;
-    }
-    
-    .voice-option:has(input:checked) {
-      border-color: var(--brand-2);
-      background: rgba(147,112,219,0.1);
-    }
-    
-    .voice-option label {
-      display: block;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    
-    .voice-label {
-      display: block;
-      margin-bottom: 0.25rem;
-    }
-    
-    .voice-option small {
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-    
-    .elevenlabs-setup {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: rgba(59, 130, 246, 0.1);
-      border-radius: var(--border-radius);
-      border: 1px solid rgba(59, 130, 246, 0.2);
-    }
-    
-    .elevenlabs-setup input {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      border-radius: var(--border-radius);
-      font-family: inherit;
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-      background: rgba(255,255,255,0.9);
-    }
-    
-    .elevenlabs-setup small {
-      color: var(--info);
-      font-size: 0.8rem;
-    }
-    
-    .elevenlabs-setup a {
-      color: var(--info);
-      text-decoration: underline;
-    }
-    
-    .voice-modal-actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-    
-    .voice-save-btn, .voice-close-btn {
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: var(--border-radius);
-      font-family: inherit;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    
-    .voice-save-btn {
-      background: var(--brand-2);
-      color: white;
-    }
-    
-    .voice-save-btn:hover {
-      background: var(--brand-1);
-    }
-    
-    .voice-close-btn {
-      background: var(--muted);
-      color: white;
-    }
-    
-    .voice-close-btn:hover {
-      background: var(--ink);
-    }
-
     .breadcrumb {
       display: flex;
       align-items: center;
@@ -713,7 +616,7 @@
 <body>
   <a class="skip-link" href="#content">Skip to story</a>
   <header class="site-header">
-    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=200&fit=crop&crop=center" class="brand-img" alt="Magical unicorn with rainbow and sparkles" />
+    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=200&fit=crop&crop=center&q=80" class="brand-img" alt="Magical unicorn with rainbow and sparkles" />
     <h1>Magical Reading Adventures</h1>
     <p class="tagline">Research-based stories that build comprehension skills!</p>
   </header>
@@ -750,7 +653,6 @@
         <button id="tts-play" aria-label="Read story aloud">▶</button>
         <button id="tts-pause" aria-label="Pause reading" disabled>⏸</button>
         <button id="tts-stop" aria-label="Stop reading" disabled>⏹</button>
-        <button id="voice-settings" aria-label="Voice settings">🎤</button>
         <div id="auto-play-indicator" class="auto-play-indicator hidden">
           🔊 Auto-play ON
         </div>
@@ -788,46 +690,17 @@
 
   <div id="tts-status" class="tts-status" role="status" aria-live="polite"></div>
 
-  <!-- Voice Settings Modal -->
-  <div id="voice-modal" class="voice-modal hidden">
-    <div class="voice-modal-content">
-      <h3>🎤 Voice Settings</h3>
-      <div class="voice-option">
-        <label>
-          <input type="radio" name="voice-type" value="browser" checked>
-          <span class="voice-label">Browser Voice (Free)</span>
-          <small>Uses your device's built-in voices</small>
-        </label>
-      </div>
-      <div class="voice-option">
-        <label>
-          <input type="radio" name="voice-type" value="elevenlabs">
-          <span class="voice-label">ElevenLabs AI Voice (Premium) ✨</span>
-          <small>Ultra-realistic, child-friendly voices</small>
-        </label>
-      </div>
-      <div id="elevenlabs-setup" class="elevenlabs-setup hidden">
-        <input type="password" id="api-key-input" placeholder="Enter your ElevenLabs API key" />
-        <small>Get your API key from <a href="https://elevenlabs.io/speech-synthesis" target="_blank">ElevenLabs</a></small>
-      </div>
-      <div class="voice-modal-actions">
-        <button id="save-voice-settings" class="voice-save-btn">Save Settings</button>
-        <button id="close-voice-modal" class="voice-close-btn">Close</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-  // --- Enhanced Research-Based Stories ---
+  // Enhanced Research-Based Stories - Complete Collection
   const STORIES = {
     evie: {
       Unicorns: {
         text: "Pink unicorn, pink unicorn, what do you see? I see a shiny horn sparkling at me. Jump jump, run run, fun fun! Say it with me: <b>u-ni-corn</b>. What rhymes with horn? (Try: corn!) Let's read it again together!",
-        imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&crop=center&q=unicorn+magical+fantasy"
+        imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=400&fit=crop&crop=center&q=80"
       },
       Dolls: {
         text: "Doll doll, pretty doll, with hair so long. Dress is purple, sing a song. Smile smile, play play, all day! Sound it out: <b>d-o-ll</b>. What color is your doll's dress? Let's imagine and read more!",
-        imageUrl: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&h=400&fit=crop&crop=center"
+        imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&crop=center&q=80"
       },
       'Toy Babies': {
         text: "Baby baby, cute cute, with bottle small. Laugh laugh, hug hug, love all! Sleep sleep, dream dream, sweet! Phonics fun: <b>b-a-by</b>. How do you care for a baby? Read and think!",
@@ -856,9 +729,14 @@
     },
     annabella: {
       'Unicorn Legends': {
-        text: "Long ago, people told <span class='vocabulary-highlight'>legends</span> about unicorns with magical healing powers. In ancient China, a unicorn called a 'qilin' was said to appear when a wise ruler was born. European stories described unicorns that could purify poisoned water with their horns. Some legends claimed only people with pure hearts could approach these mystical creatures. Today, we know these are myths, but they teach us about hope and goodness. What makes a legend different from a regular story? Legends often explain something mysterious or teach important <span class='vocabulary-highlight'>values</span> like kindness and bravery. Many cultures around the world have their own unicorn-like creatures in their folklore.",
-        imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&crop=center",
-        vocabulary: ['legends', 'values', 'mystical', 'folklore'],
+        text: "Long ago, people told legends about unicorns with magical healing powers. In ancient China, a unicorn called a 'qilin' was said to appear when a wise ruler was born. European stories described unicorns that could purify poisoned water with their horns. Some legends claimed only people with pure hearts could approach these mystical creatures. Today, we know these are myths, but they teach us about hope and goodness. What makes a legend different from a regular story? Legends often explain something mysterious or teach important values like kindness and bravery. Many cultures around the world have their own unicorn-like creatures in their folklore.",
+        imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=400&fit=crop&crop=center&q=80",
+        vocabulary: {
+          'legends': 'Stories passed down through generations, often about heroes or magical events',
+          'values': 'Important beliefs about what is right and good',
+          'mystical': 'Having a spiritual or magical meaning that is difficult to understand',
+          'folklore': 'Traditional stories and beliefs of a culture'
+        },
         comprehension: [
           {
             type: 'Connection',
@@ -875,10 +753,65 @@
         ],
         readingTips: 'Ask your child to make connections to other legends or fairy tales they know. Encourage them to predict what might happen next in stories.'
       },
+      'Doll Adventures': {
+        text: "Dolls aren't just toys—they can inspire big adventures! Picture a doll sailing across oceans, discovering hidden treasures, and making allies. Educational tip: Playing with dolls builds empathy and storytelling skills. What adventure would your doll have? Throughout history, dolls have been found in ancient Egyptian tombs and Greek temples. They help children practice caring for others and develop imagination. Modern dolls come from many cultures, teaching us about diversity. Some dolls are designed to look like real people, while others are fantasy characters that spark creativity.",
+        imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&crop=center&q=80",
+        vocabulary: {
+          'empathy': 'Understanding and sharing the feelings of others',
+          'allies': 'Friends who help and support you',
+          'diversity': 'Having many different kinds of people and things',
+          'creativity': 'The ability to make new and interesting things'
+        },
+        comprehension: [
+          {
+            type: 'Main Idea',
+            question: 'What is the main message about how dolls help children learn and grow?'
+          },
+          {
+            type: 'Historical Connection',
+            question: 'How do ancient dolls connect to modern dolls? What stayed the same?'
+          },
+          {
+            type: 'Personal Application',
+            question: 'What adventure story could you create with a doll as the main character?'
+          }
+        ],
+        readingTips: 'Encourage your child to create stories with their toys. Ask them to describe the characters and adventures in detail.'
+      },
+      'Toy Baby Care': {
+        text: "Caring for toy babies teaches real-life skills like feeding, bathing, and comforting. In reality, babies grow from newborns to toddlers, learning to walk around 1 year old. Fact: Responsibility helps kids become independent. How does baby care change as they grow? Real babies need different things at different ages. Newborns sleep most of the day, but toddlers are very active! Playing with baby dolls helps children understand patience and gentleness. It also prepares them for helping with real babies in their families.",
+        imageUrl: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=600&h=400&fit=crop&crop=center",
+        vocabulary: {
+          'responsibility': 'Taking care of important tasks and duties',
+          'independent': 'Being able to do things by yourself',
+          'patience': 'Being calm and waiting without getting upset',
+          'gentleness': 'Being soft and careful with others'
+        },
+        comprehension: [
+          {
+            type: 'Sequence',
+            question: 'How do babies change as they grow from newborns to toddlers?'
+          },
+          {
+            type: 'Skills Development',
+            question: 'What life skills does caring for toy babies teach children?'
+          },
+          {
+            type: 'Real-World Connection',
+            question: 'How might playing with baby dolls help you in real life?'
+          }
+        ],
+        readingTips: 'Connect doll play to real family experiences. Ask your child about how they would help care for a real baby.'
+      },
       'Ocean Explorers': {
-        text: "The ocean covers more than 70% of Earth's surface, yet we've only explored about 5% of it! <span class='vocabulary-highlight'>Marine biologists</span> are scientists who study ocean life. They use special submarines called submersibles to dive deep underwater. The deepest part of the ocean, the Mariana Trench, is nearly seven miles down—that's deeper than Mount Everest is tall! In the dark depths, amazing creatures create their own light through <span class='vocabulary-highlight'>bioluminescence</span>. Some jellyfish glow blue, while certain fish have lights like tiny flashlights. Ocean explorers have discovered <span class='vocabulary-highlight'>species</span> of fish that live near underwater volcanoes. These <span class='vocabulary-highlight'>extreme environments</span> help us understand how life might exist on other planets!",
+        text: "The ocean covers more than 70% of Earth's surface, yet we've only explored about 5% of it! Marine biologists are scientists who study ocean life. They use special submarines called submersibles to dive deep underwater. The deepest part of the ocean, the Mariana Trench, is nearly seven miles down—that's deeper than Mount Everest is tall! In the dark depths, amazing creatures create their own light through bioluminescence. Some jellyfish glow blue, while certain fish have lights like tiny flashlights. Ocean explorers have discovered species of fish that live near underwater volcanoes. These extreme environments help us understand how life might exist on other planets!",
         imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop&crop=center",
-        vocabulary: ['marine biologists', 'bioluminescence', 'species', 'extreme environments'],
+        vocabulary: {
+          'marine biologists': 'Scientists who study ocean life and sea creatures',
+          'bioluminescence': 'The ability of living things to create their own light',
+          'species': 'A group of similar animals or plants that can have babies together',
+          'extreme environments': 'Places with very harsh conditions where few things can survive'
+        },
         comprehension: [
           {
             type: 'Main Idea',
@@ -896,9 +829,14 @@
         readingTips: 'Help your child visualize the ocean depths by comparing them to familiar landmarks. Encourage questions about how sea creatures adapt to their environment.'
       },
       'Space Adventures': {
-        text: "Astronauts train for years before traveling to space. They practice in giant pools underwater to simulate the feeling of <span class='vocabulary-highlight'>weightlessness</span>. The International Space Station orbits Earth every 90 minutes, traveling at 17,500 miles per hour! Up there, astronauts conduct <span class='vocabulary-highlight'>experiments</span> that help us understand how plants grow without gravity. They also study how human bodies change in space. Did you know that astronauts actually grow taller in space because their spines stretch out? Mars is our next big <span class='vocabulary-highlight'>destination</span>—it takes about 7 months to travel there. Scientists are working on growing food in space and creating <span class='vocabulary-highlight'>sustainable</span> living areas for future Mars explorers. One day, you might be able to vacation in space!",
+        text: "Astronauts train for years before traveling to space. They practice in giant pools underwater to simulate the feeling of weightlessness. The International Space Station orbits Earth every 90 minutes, traveling at 17,500 miles per hour! Up there, astronauts conduct experiments that help us understand how plants grow without gravity. They also study how human bodies change in space. Did you know that astronauts actually grow taller in space because their spines stretch out? Mars is our next big destination—it takes about 7 months to travel there. Scientists are working on growing food in space and creating sustainable living areas for future Mars explorers. One day, you might be able to vacation in space!",
         imageUrl: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=600&h=400&fit=crop&crop=center",
-        vocabulary: ['weightlessness', 'experiments', 'destination', 'sustainable'],
+        vocabulary: {
+          'weightlessness': 'The feeling of floating when there is no gravity pulling you down',
+          'experiments': 'Tests that scientists do to learn new things',
+          'destination': 'The place you are trying to get to',
+          'sustainable': 'Something that can continue for a long time without causing harm'
+        },
         comprehension: [
           {
             type: 'Sequence',
@@ -915,10 +853,115 @@
         ],
         readingTips: 'Connect space concepts to your child\'s daily life. Ask them to imagine what they would miss most about Earth if they lived on Mars.'
       },
+      'Dinosaur Friends': {
+        text: "Dinosaurs like Velociraptors were smart hunters, while Brachiosaurus ate plants from tall trees. Fossils show they lived 65 million years ago. Fact: Birds are modern dinosaur relatives. If dinosaurs were friends, what games would they play? Scientists called paleontologists study dinosaur bones to learn about these ancient creatures. Some dinosaurs were as small as chickens, while others were longer than school buses! They lived in different time periods and had amazing adaptations. T-Rex had tiny arms but powerful jaws, while Triceratops had three horns for protection.",
+        imageUrl: "https://images.unsplash.com/photo-1472491235688-bdc81a63246e?w=600&h=400&fit=crop&crop=center&q=80",
+        vocabulary: {
+          'fossils': 'Remains of ancient plants and animals preserved in rock',
+          'paleontologists': 'Scientists who study fossils and prehistoric life',
+          'adaptations': 'Special features that help animals survive in their environment',
+          'prehistoric': 'From a very long time ago, before recorded history'
+        },
+        comprehension: [
+          {
+            type: 'Compare/Contrast',
+            question: 'How were plant-eating dinosaurs different from meat-eating dinosaurs?'
+          },
+          {
+            type: 'Scientific Connection',
+            question: 'What evidence do we have that birds are related to dinosaurs?'
+          },
+          {
+            type: 'Imagination',
+            question: 'If you could meet a friendly dinosaur, which one would you choose and why?'
+          }
+        ],
+        readingTips: 'Visit a natural history museum to see real fossils. Encourage your child to compare dinosaurs to modern animals.'
+      },
+      'Science Magic': {
+        text: "Science turns everyday things into magic, like making volcanoes with baking soda and vinegar—it's an acid-base reaction creating CO2 gas. Fact: This teaches chemistry basics. What 'magic' experiment can you do at home? Scientists use the scientific method: ask a question, make a hypothesis, test it, and draw conclusions. Many scientific discoveries happened by accident, like penicillin medicine. Every day, we use science without thinking about it—from cooking (chemistry) to riding bikes (physics). Science helps us understand how the world works and solve problems.",
+        imageUrl: "https://images.unsplash.com/photo-1532187643603-ba119ca4109e?w=600&h=400&fit=crop&crop=center",
+        vocabulary: {
+          'hypothesis': 'An educated guess about what might happen in an experiment',
+          'scientific method': 'The step-by-step way scientists investigate questions',
+          'chemistry': 'The science that studies how different substances mix and change',
+          'physics': 'The science that studies how things move and work'
+        },
+        comprehension: [
+          {
+            type: 'Process',
+            question: 'What are the steps of the scientific method?'
+          },
+          {
+            type: 'Real-World Application',
+            question: 'How do we use science in everyday activities like cooking or playing?'
+          },
+          {
+            type: 'Investigation',
+            question: 'What science experiment would you like to try at home?'
+          }
+        ],
+        readingTips: 'Try simple, safe experiments together. Ask your child to predict what will happen before you start.'
+      },
+      'History Heroes': {
+        text: "History heroes like Harriet Tubman led people to freedom via the Underground Railroad. She made 13 missions, saving over 70 people. Fact: Heroes inspire change. Who is your history hero and why? Other heroes include Marie Curie, the first woman to win a Nobel Prize, and Frederick Douglass, who escaped slavery and became a famous speaker for freedom. These brave people changed the world by standing up for what was right, even when it was dangerous. They show us that one person can make a huge difference.",
+        imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop&crop=center",
+        vocabulary: {
+          'Underground Railroad': 'A secret network that helped enslaved people escape to freedom',
+          'Nobel Prize': 'A special award given to people who make important discoveries',
+          'inspire': 'To encourage others to do great things',
+          'courage': 'Being brave even when you are scared'
+        },
+        comprehension: [
+          {
+            type: 'Character Analysis',
+            question: 'What qualities made Harriet Tubman a hero?'
+          },
+          {
+            type: 'Cause/Effect',
+            question: 'How did these heroes change the world for the better?'
+          },
+          {
+            type: 'Personal Connection',
+            question: 'What would you do to help others if you could be a hero?'
+          }
+        ],
+        readingTips: 'Discuss what makes someone a hero. Encourage your child to think about everyday heroes in their own life.'
+      },
+      'Nature Detectives': {
+        text: "Nature detectives observe how bees pollinate flowers, helping plants grow fruit. Seasons change due to Earth's tilt. Fact: Trees can communicate through underground fungi networks. What nature mystery can you solve? Animals leave clues everywhere—tracks in mud, nests in trees, and sounds in the forest. By watching carefully, we can learn how ecosystems work together. Every living thing has a job in nature, from tiny ants to huge elephants. Even decomposers like mushrooms help by breaking down dead plants to feed the soil.",
+        imageUrl: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=400&fit=crop&crop=center",
+        vocabulary: {
+          'pollinate': 'When bees carry pollen from flower to flower to help plants make seeds',
+          'ecosystems': 'All the living things in an area and how they work together',
+          'decomposers': 'Living things that break down dead plants and animals',
+          'fungi': 'Mushrooms and other plant-like living things that don\'t make their own food'
+        },
+        comprehension: [
+          {
+            type: 'Systems Thinking',
+            question: 'How do bees, flowers, and fruit trees work together in nature?'
+          },
+          {
+            type: 'Observation Skills',
+            question: 'What clues could you look for to learn about animals in your neighborhood?'
+          },
+          {
+            type: 'Scientific Wonder',
+            question: 'What nature mystery would you most like to investigate?'
+          }
+        ],
+        readingTips: 'Go on nature walks and encourage your child to observe and ask questions about what they see.'
+      },
       'Ancient Egypt': {
-        text: "Ancient Egypt was one of the world's greatest <span class='vocabulary-highlight'>civilizations</span>, lasting over 3,000 years! The Egyptians built amazing pyramids that still stand today. The Great Pyramid of Giza was the world's tallest building for almost 4,000 years. Egyptians created <span class='vocabulary-highlight'>hieroglyphics</span>, a writing system using pictures and symbols. They wrote on papyrus, an early type of paper made from plants. Egyptian <span class='vocabulary-highlight'>pharaohs</span> were kings and queens who were considered gods. The most famous pharaoh, King Tutankhamun, became king when he was only nine years old! Egyptians believed in life after death and <span class='vocabulary-highlight'>mummified</span> bodies to preserve them. They built elaborate tombs filled with treasures for the afterlife. Their mathematical and <span class='vocabulary-highlight'>engineering</span> skills were so advanced that we still study them today.",
+        text: "Ancient Egypt was one of the world's greatest civilizations, lasting over 3,000 years! The Egyptians built amazing pyramids that still stand today. The Great Pyramid of Giza was the world's tallest building for almost 4,000 years. Egyptians created hieroglyphics, a writing system using pictures and symbols. They wrote on papyrus, an early type of paper made from plants. Egyptian pharaohs were kings and queens who were considered gods. The most famous pharaoh, King Tutankhamun, became king when he was only nine years old! Egyptians believed in life after death and mummified bodies to preserve them. Their mathematical and engineering skills were so advanced that we still study them today.",
         imageUrl: "https://images.unsplash.com/photo-1594736797933-d0f06ba80404?w=600&h=400&fit=crop&crop=center",
-        vocabulary: ['civilizations', 'hieroglyphics', 'pharaohs', 'mummified', 'engineering'],
+        vocabulary: {
+          'civilizations': 'Large groups of people living together with their own culture and way of life',
+          'hieroglyphics': 'Ancient Egyptian writing using pictures and symbols instead of letters',
+          'pharaohs': 'Kings and queens who ruled ancient Egypt',
+          'engineering': 'Using science and math to build amazing things'
+        },
         comprehension: [
           {
             type: 'Timeline',
@@ -935,30 +978,15 @@
         ],
         readingTips: 'Help your child create a timeline of events. Encourage them to compare ancient Egyptian innovations to modern technology.'
       },
-      'Weather Patterns': {
-        text: "Weather happens because of the sun's energy heating Earth unevenly. <span class='vocabulary-highlight'>Meteorologists</span> are scientists who study and predict weather patterns. They use satellites, weather balloons, and radar to collect data. Clouds form when warm, moist air rises and cools down, just like when you see your breath on a cold day. Different cloud types signal different weather: fluffy cumulus clouds usually mean fair weather, while dark <span class='vocabulary-highlight'>cumulonimbus</span> clouds can bring thunderstorms. The water cycle connects all weather—water evaporates from oceans, forms clouds, falls as rain, and flows back to the sea. Extreme weather like hurricanes, tornadoes, and blizzards can be dangerous, but they're natural parts of Earth's <span class='vocabulary-highlight'>climate system</span>. Understanding weather helps farmers know when to plant crops and helps people stay safe during storms.",
-        imageUrl: "https://images.unsplash.com/photo-1419833479618-c595710db962?w=600&h=400&fit=crop&crop=center",
-        vocabulary: ['meteorologists', 'cumulonimbus', 'climate system', 'evaporates'],
-        comprehension: [
-          {
-            type: 'Process',
-            question: 'Explain how the water cycle creates weather patterns.'
-          },
-          {
-            type: 'Classification',
-            question: 'How do different types of clouds help predict weather?'
-          },
-          {
-            type: 'Application',
-            question: 'How might understanding weather patterns help people in different jobs?'
-          }
-        ],
-        readingTips: 'Point out different cloud types when you\'re outside together. Encourage your child to make weather predictions based on cloud observations.'
-      },
       'Animal Adaptations': {
-        text: "<span class='vocabulary-highlight'>Adaptation</span> is how animals change over time to survive in their environments. Polar bears have thick white fur to stay warm and hide in Arctic snow. Desert camels store fat in their humps for energy during long journeys without food. Chameleons change colors to <span class='vocabulary-highlight'>camouflage</span> themselves from predators and communicate with other chameleons. Birds have different beak shapes for different foods: long thin beaks for nectar, strong thick beaks for seeds, and sharp curved beaks for hunting. Some animals have <span class='vocabulary-highlight'>behavioral adaptations</span> too—wolves hunt in packs, while meerkats take turns standing guard. Ocean animals show amazing adaptations: whales hold their breath for hours, and deep-sea fish create their own light. These adaptations took millions of years to develop through <span class='vocabulary-highlight'>evolution</span>.",
+        text: "Adaptation is how animals change over time to survive in their environments. Polar bears have thick white fur to stay warm and hide in Arctic snow. Desert camels store fat in their humps for energy during long journeys without food. Chameleons change colors to camouflage themselves from predators and communicate with other chameleons. Birds have different beak shapes for different foods: long thin beaks for nectar, strong thick beaks for seeds, and sharp curved beaks for hunting. Some animals have behavioral adaptations too—wolves hunt in packs, while meerkats take turns standing guard. Ocean animals show amazing adaptations: whales hold their breath for hours, and deep-sea fish create their own light. These adaptations took millions of years to develop through evolution.",
         imageUrl: "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=600&h=400&fit=crop&crop=center",
-        vocabulary: ['adaptation', 'camouflage', 'behavioral adaptations', 'evolution'],
+        vocabulary: {
+          'adaptation': 'How animals change over time to survive better in their homes',
+          'camouflage': 'When animals change colors or patterns to hide from enemies',
+          'behavioral adaptations': 'Special things animals do (not how they look) to survive',
+          'evolution': 'The very slow process of how animals change over millions of years'
+        },
         comprehension: [
           {
             type: 'Categories',
@@ -974,51 +1002,11 @@
           }
         ],
         readingTips: 'Ask your child to think about how pets are adapted for their environments. Encourage them to observe animal behaviors at parks or zoos.'
-      },
-      'Renewable Energy': {
-        text: "<span class='vocabulary-highlight'>Renewable energy</span> comes from sources that never run out, like sunlight, wind, and water. Solar panels convert sunlight into electricity using <span class='vocabulary-highlight'>photovoltaic</span> cells, similar to how plants use sunlight for energy. Wind turbines have huge blades that spin in the wind to generate power—one large turbine can provide electricity for hundreds of homes! <span class='vocabulary-highlight'>Hydroelectric</span> dams use flowing water to spin generators, and some countries get most of their power this way. Geothermal energy comes from heat deep inside Earth. Iceland uses this natural heat to warm buildings and generate electricity. Unlike fossil fuels, renewable energy doesn't create <span class='vocabulary-highlight'>pollution</span> that harms our environment. Many schools now have solar panels on their roofs, and electric cars are becoming more popular. Scientists are working on new technologies like storing energy in giant batteries for when the sun isn't shining or the wind isn't blowing.",
-        imageUrl: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&h=400&fit=crop&crop=center",
-        vocabulary: ['renewable energy', 'photovoltaic', 'hydroelectric', 'pollution'],
-        comprehension: [
-          {
-            type: 'Compare/Contrast',
-            question: 'How is renewable energy different from fossil fuels?'
-          },
-          {
-            type: 'Examples',
-            question: 'Give three examples of renewable energy sources and explain how each one works.'
-          },
-          {
-            type: 'Future Thinking',
-            question: 'What challenges do scientists need to solve to make renewable energy even better?'
-          }
-        ],
-        readingTips: 'Look for solar panels or wind turbines in your area. Discuss how your family could use less energy and help the environment.'
-      },
-      'Brain Science': {
-        text: "Your brain is like a super-computer with 86 billion <span class='vocabulary-highlight'>neurons</span> that send messages to each other. Different parts of your brain have special jobs: the <span class='vocabulary-highlight'>cerebellum</span> controls balance and movement, while the frontal lobe handles thinking and decision-making. When you learn something new, your brain forms new connections called <span class='vocabulary-highlight'>synapses</span>. This is called <span class='vocabulary-highlight'>neuroplasticity</span>—your brain can actually change and grow throughout your life! Sleep is crucial for your brain because it clears out toxins and helps form memories. Dreams happen during REM sleep when your brain is very active. Exercise increases blood flow to your brain and helps you think better. Reading, playing music, and solving puzzles all strengthen different brain regions. Scientists use special scanners like MRI machines to watch the brain in action and understand how it works.",
-        imageUrl: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=400&fit=crop&crop=center",
-        vocabulary: ['neurons', 'cerebellum', 'synapses', 'neuroplasticity'],
-        comprehension: [
-          {
-            type: 'Function',
-            question: 'Explain what neuroplasticity means and why it\'s important for learning.'
-          },
-          {
-            type: 'Connections',
-            question: 'How do sleep, exercise, and learning all help your brain stay healthy?'
-          },
-          {
-            type: 'Application',
-            question: 'Based on what you learned, what activities could you do to strengthen your brain?'
-          }
-        ],
-        readingTips: 'Connect brain functions to your child\'s daily experiences. Encourage them to notice how they feel after exercise or good sleep.'
       }
     }
   };
 
-  // --- App state & DOM elements ---
+  // App state & DOM elements
   const el = {
     ageSection: document.getElementById('age-selection'),
     topicsPanel: document.getElementById('topics'),
@@ -1033,12 +1021,6 @@
     ttsPlay: document.getElementById('tts-play'),
     ttsPause: document.getElementById('tts-pause'),
     ttsStop: document.getElementById('tts-stop'),
-    voiceSettings: document.getElementById('voice-settings'),
-    voiceModal: document.getElementById('voice-modal'),
-    closeVoiceModal: document.getElementById('close-voice-modal'),
-    saveVoiceSettings: document.getElementById('save-voice-settings'),
-    apiKeyInput: document.getElementById('api-key-input'),
-    elevenLabsSetup: document.getElementById('elevenlabs-setup'),
     ttsRate: document.getElementById('tts-rate'),
     ttsStatus: document.getElementById('tts-status'),
     readerName: document.getElementById('reader-name'),
@@ -1057,104 +1039,13 @@
     rate: parseFloat(localStorage.getItem('tts-rate') || '0.8'),
     isReading: false,
     currentUtterance: null,
-    autoPlay: false,
-    useElevenLabs: localStorage.getItem('use-elevenlabs') === 'true',
-    elevenLabsApiKey: localStorage.getItem('elevenlabs-api-key') || ''
+    autoPlay: false
   };
 
   // Initialize rate slider
   el.ttsRate.value = state.rate;
 
-  // --- ElevenLabs Integration ---
-  const ELEVENLABS_VOICES = {
-    evie: {
-      id: 'pNInz6obpgDQGcFmaJgB', // Amy - young girl voice
-      name: 'Amy (4-year-old girl)'
-    },
-    annabella: {
-      id: 'EXAVITQu4vr4xnSDxMaL', // Sarah - child narrator  
-      name: 'Sarah (8-year-old girl)'
-    }
-  };
-
-  async function generateElevenLabsAudio(text, ageKey) {
-    if (!state.elevenLabsApiKey) {
-      throw new Error('ElevenLabs API key not configured');
-    }
-
-    const voiceId = ELEVENLABS_VOICES[ageKey]?.id;
-    if (!voiceId) {
-      throw new Error('Voice not found for age group');
-    }
-
-    showTTSStatus('🔮 Generating magical voice...', 0);
-
-    try {
-      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'audio/mpeg',
-          'Content-Type': 'application/json',
-          'xi-api-key': state.elevenLabsApiKey
-        },
-        body: JSON.stringify({
-          text: text.substring(0, 2000), // Limit for free tier
-          model_id: "eleven_flash_v2_5", // Fast, low-latency model
-          voice_settings: {
-            stability: ageKey === 'evie' ? 0.6 : 0.5,
-            similarity_boost: 0.75,
-            style: ageKey === 'evie' ? 0.3 : 0.4, // Less dramatic for younger kids
-            use_speaker_boost: true
-          }
-        })
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.detail?.message || 'ElevenLabs API error');
-      }
-
-      const audioBlob = await response.blob();
-      return URL.createObjectURL(audioBlob);
-    } catch (error) {
-      console.error('ElevenLabs error:', error);
-      showTTSStatus('❌ AI voice failed, using backup voice', 3000, 'warning');
-      throw error;
-    }
-  }
-
-  async function playElevenLabsAudio(audioUrl) {
-    return new Promise((resolve, reject) => {
-      const audio = new Audio(audioUrl);
-      
-      audio.onloadstart = () => {
-        state.isReading = true;
-        updateTTSButtons(true);
-        const readerName = state.ageKey === 'evie' ? 'Evie' : 'Annabella';
-        const voiceName = ELEVENLABS_VOICES[state.ageKey]?.name || 'AI voice';
-        showTTSStatus(`🎭 ${voiceName} reading for ${readerName}...`, 0);
-      };
-
-      audio.onended = () => {
-        state.isReading = false;
-        updateTTSButtons(false);
-        showTTSStatus('✅ Story complete!', 2000, 'success');
-        URL.revokeObjectURL(audioUrl); // Clean up blob URL
-        resolve();
-      };
-
-      audio.onerror = (e) => {
-        state.isReading = false;
-        updateTTSButtons(false);
-        showTTSStatus('❌ Audio playback failed', 3000, 'warning');
-        reject(e);
-      };
-
-      // Store reference for pause/stop functionality
-      state.currentAudio = audio;
-      audio.play();
-    });
-  }
+  // Enhanced Voice Selection
   const synth = window.speechSynthesis;
   let voicesLoaded = false;
 
@@ -1166,37 +1057,19 @@
     
     voicesLoaded = true;
     
-    // Prioritize child-friendly, higher-pitched voices
+    // Prioritize child-friendly voices
     const childFriendlyVoices = [
-      // Female voices (typically higher pitched, more child-friendly)
       'Microsoft Zira', 'Google US English Female', 'Samantha', 'Victoria', 
-      'Karen', 'Microsoft Hazel', 'Google UK English Female', 'Susan',
-      'Vicki', 'Princess', 'Kathy', 'Serena', 'Allison',
-      // Then male voices with higher pitch potential
-      'Google US English Male', 'Microsoft Mark', 'Alex', 'Daniel', 'Tom'
+      'Karen', 'Google UK English Female', 'Susan', 'Alex', 'Daniel'
     ];
     
-    // Find the best child-friendly voice
     let bestVoice = null;
     
-    // First try exact matches
     for (let preferred of childFriendlyVoices) {
       bestVoice = voices.find(v => v.name.includes(preferred));
       if (bestVoice) break;
     }
     
-    // If no exact match, prioritize female voices (generally higher pitch)
-    if (!bestVoice) {
-      bestVoice = voices.find(v => 
-        v.lang.startsWith('en') && 
-        (v.name.toLowerCase().includes('female') || 
-         v.name.toLowerCase().includes('woman') ||
-         ['zira', 'samantha', 'victoria', 'karen', 'susan'].some(name => 
-           v.name.toLowerCase().includes(name)))
-      );
-    }
-    
-    // Final fallback to any English voice
     if (!bestVoice) {
       bestVoice = voices.find(v => 
         v.lang.startsWith('en') && (v.localService || v.default)
@@ -1204,48 +1077,102 @@
     }
     
     state.voice = bestVoice;
-    console.log('Selected child-friendly voice:', bestVoice?.name || 'None available');
+    console.log('Selected voice:', bestVoice?.name || 'None available');
   }
 
-  // Load voices when available
   synth.onvoiceschanged = loadVoices;
-  loadVoices(); // Try immediately in case voices are already loaded
+  loadVoices();
 
-  // --- Event Listeners ---
-  document.querySelectorAll('.chip[data-age]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      state.ageKey = btn.dataset.age;
-      state.autoPlay = (state.ageKey === 'evie'); // Auto-play for Evie only
-      showTopics(state.ageKey);
+  // Event Listeners
+  document.addEventListener('DOMContentLoaded', initializeApp);
+  if (document.readyState !== 'loading') {
+    initializeApp();
+  }
+
+  function initializeApp() {
+    // Age selection
+    document.querySelectorAll('.chip[data-age]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.ageKey = btn.dataset.age;
+        state.autoPlay = (state.ageKey === 'evie');
+        showTopics(state.ageKey);
+      });
     });
-  });
 
-  el.backToAges.addEventListener('click', () => {
-    stopTTS();
-    el.topicsPanel.classList.add('hidden');
-    el.content.classList.add('hidden');
-    el.ageSection.classList.remove('hidden');
-    el.topicGrid.innerHTML = '';
-    state.ageKey = null;
-    state.autoPlay = false;
-  });
+    // Navigation
+    el.backToAges.addEventListener('click', () => {
+      stopTTS();
+      el.topicsPanel.classList.add('hidden');
+      el.content.classList.add('hidden');
+      el.ageSection.classList.remove('hidden');
+      el.topicGrid.innerHTML = '';
+      state.ageKey = null;
+      state.autoPlay = false;
+    });
 
-  document.getElementById('back-to-topics').addEventListener('click', () => {
-    stopTTS();
-    el.content.classList.add('hidden');
-    el.topicsPanel.classList.remove('hidden');
-  });
+    document.getElementById('back-to-topics').addEventListener('click', () => {
+      stopTTS();
+      el.content.classList.add('hidden');
+      el.topicsPanel.classList.remove('hidden');
+    });
+
+    // TTS Controls
+    el.ttsPlay.addEventListener('click', () => {
+      if (synth.paused) {
+        resumeTTS();
+      } else {
+        const text = getPlainTextFromStory();
+        if (text) speak(text);
+      }
+    });
+
+    el.ttsPause.addEventListener('click', pauseTTS);
+    el.ttsStop.addEventListener('click', stopTTS);
+
+    el.ttsRate.addEventListener('input', (e) => {
+      state.rate = parseFloat(e.target.value);
+      localStorage.setItem('tts-rate', state.rate.toString());
+      showTTSStatus(`Speed: ${Math.round(state.rate * 100)}%`, 1000);
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        stopTTS();
+      } else if (e.key === ' ' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') {
+        e.preventDefault();
+        if (state.isReading) {
+          if (synth.paused) resumeTTS();
+          else pauseTTS();
+        } else {
+          const text = getPlainTextFromStory();
+          if (text) speak(text);
+        }
+      }
+    });
+
+    // Cleanup
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        stopTTS();
+      }
+    });
+
+    window.addEventListener('beforeunload', stopTTS);
+
+    console.log('App initialized');
+  }
 
   function showTopics(ageKey) {
     el.ageSection.classList.add('hidden');
     el.topicsPanel.classList.remove('hidden');
     el.topicGrid.innerHTML = '';
     
-    // Update breadcrumb
     const readerName = ageKey === 'evie' ? '🌸 Evie' : '✨ Annabella';
     el.readerName.textContent = readerName;
     
     const topics = Object.keys(STORIES[ageKey] || {});
+    
     topics.forEach(name => {
       const b = document.createElement('button');
       b.className = 'chip';
@@ -1255,27 +1182,23 @@
     });
   }
 
-  async function getStory({ ageKey, subject }) {
-    return STORIES[ageKey]?.[subject] ?? null;
-  }
-
   async function loadStory(ageKey, subject) {
     stopTTS();
     state.subject = subject;
+    
     el.loading.classList.remove('hidden');
     el.topicsPanel.classList.add('hidden');
     el.content.classList.remove('hidden');
+    
     el.text.innerHTML = '';
     el.img.classList.add('hidden');
     el.imageLoading.classList.remove('hidden');
     el.comprehensionSection.classList.add('hidden');
     el.readingTips.classList.add('hidden');
     
-    // Update breadcrumb
     const readerName = ageKey === 'evie' ? '🌸 Evie' : '✨ Annabella';
     el.storyBreadcrumb.textContent = `${readerName} → ${subject}`;
     
-    // Show/hide auto-play indicator
     if (state.autoPlay) {
       el.autoPlayIndicator.classList.remove('hidden');
     } else {
@@ -1283,65 +1206,30 @@
     }
     
     try {
-      // Add a brief loading animation
       await new Promise(r => setTimeout(r, 600));
-      const data = await getStory({ ageKey, subject });
+      const data = STORIES[ageKey]?.[subject];
       if (!data) throw new Error('No story found');
 
-      // Create clickable words
-      const words = data.text.split(/(\s+)/).map(segment => {
-        if (segment.trim()) {
-          const span = document.createElement('span');
-          span.className = 'word';
-          span.innerHTML = segment; // Preserve HTML like <b> tags
-          span.setAttribute('tabindex', '0');
-          span.setAttribute('role', 'button');
-          span.setAttribute('aria-label', `Click to hear: ${span.textContent}`);
-          span.addEventListener('click', () => speakWord(span.textContent));
-          span.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              speakWord(span.textContent);
-            }
-          });
-          return span.outerHTML;
-        }
-        return segment;
-      }).join('');
-
-      el.text.innerHTML = words;
-
-      // Load image with better loading states
+      processAndRenderStory(data, ageKey);
+      
       if (data.imageUrl) {
-        const img = new Image();
-        img.onload = () => {
-          el.img.src = data.imageUrl;
-          el.img.alt = `${subject} illustration - a beautiful scene showing ${subject.toLowerCase()}`;
-          el.img.classList.remove('hidden');
-          el.imageLoading.classList.add('hidden');
-          el.caption.textContent = subject;
-        };
-        img.onerror = () => {
-          el.imageLoading.textContent = 'Image unavailable';
-          setTimeout(() => el.imageLoading.classList.add('hidden'), 2000);
-        };
-        img.src = data.imageUrl;
+        loadStoryImage(data.imageUrl, subject);
       } else {
         el.imageLoading.classList.add('hidden');
       }
       
-      // Show comprehension section for Annabella
-      if (ageKey === 'annabella' && data.comprehension) {
-        showComprehensionQuestions(data.comprehension);
+      if (ageKey === 'annabella') {
+        if (data.comprehension) {
+          showComprehensionQuestions(data.comprehension);
+        }
         if (data.readingTips) {
           showReadingTips(data.readingTips);
         }
       }
       
-      // Auto-play for Evie after story loads
       if (state.autoPlay && state.ageKey === 'evie') {
         setTimeout(() => {
-          const text = el.text.textContent.trim();
+          const text = getPlainTextFromStory();
           if (text) {
             showTTSStatus('✨ Starting story for Evie!', 2000);
             speak(text);
@@ -1352,11 +1240,123 @@
       }
       
     } catch (err) {
+      console.error('Story loading error:', err);
       el.text.textContent = `Oops! Magic mishap. Try again. (${err.message})`;
-      showTTSStatus('Story loading failed', 3000);
+      showTTSStatus('Story loading failed', 3000, 'warning');
     } finally {
       el.loading.classList.add('hidden');
     }
+  }
+
+  function processAndRenderStory(data, ageKey) {
+    let processedText = data.text;
+    
+    // Apply vocabulary highlighting for Annabella
+    if (ageKey === 'annabella' && data.vocabulary) {
+      Object.keys(data.vocabulary).forEach(word => {
+        const regex = new RegExp(`\\b(${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\b`, 'gi');
+        processedText = processedText.replace(regex, `<span class="vocabulary-highlight">$1</span>`);
+      });
+    }
+    
+    // Create clickable word spans
+    const segments = processedText.split(/(<[^>]*>)/);
+    let result = '';
+    
+    for (let i = 0; i < segments.length; i++) {
+      const segment = segments[i];
+      
+      if (segment.startsWith('<') && segment.endsWith('>')) {
+        result += segment;
+      } else if (segment.trim()) {
+        const words = segment.split(/(\s+)/).map(part => {
+          if (part.trim()) {
+            return `<span class="word" tabindex="0" role="button">${part}</span>`;
+          }
+          return part;
+        }).join('');
+        result += words;
+      } else {
+        result += segment;
+      }
+    }
+
+    el.text.innerHTML = result;
+    
+    addWordEventListeners();
+    if (ageKey === 'annabella' && data.vocabulary) {
+      addVocabularyHandlers(data.vocabulary);
+    }
+  }
+
+  function addWordEventListeners() {
+    const wordElements = document.querySelectorAll('.word');
+    wordElements.forEach(el => {
+      el.addEventListener('click', () => {
+        const vocabChild = el.querySelector('.vocabulary-highlight');
+        if (!vocabChild) {
+          speakWord(el.textContent);
+        }
+      });
+      
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const vocabChild = el.querySelector('.vocabulary-highlight');
+          if (!vocabChild) {
+            speakWord(el.textContent);
+          }
+        }
+      });
+    });
+  }
+
+  function addVocabularyHandlers(vocabularyDict) {
+    const vocabElements = document.querySelectorAll('.vocabulary-highlight');
+    vocabElements.forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const word = el.textContent.trim().toLowerCase();
+        const definition = vocabularyDict[word];
+        if (definition) {
+          showVocabularyDefinition(word, definition);
+          speakVocabularyWord(word, definition);
+        }
+      });
+      
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          e.stopPropagation();
+          const word = el.textContent.trim().toLowerCase();
+          const definition = vocabularyDict[word];
+          if (definition) {
+            showVocabularyDefinition(word, definition);
+            speakVocabularyWord(word, definition);
+          }
+        }
+      });
+      
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'button');
+      el.setAttribute('aria-label', `Learn about: ${el.textContent}`);
+    });
+  }
+
+  function loadStoryImage(imageUrl, subject) {
+    const img = new Image();
+    img.onload = () => {
+      el.img.src = imageUrl;
+      el.img.alt = `${subject} illustration - a beautiful scene showing ${subject.toLowerCase()}`;
+      el.img.classList.remove('hidden');
+      el.imageLoading.classList.add('hidden');
+      el.caption.textContent = subject;
+    };
+    img.onerror = () => {
+      el.imageLoading.textContent = 'Image unavailable';
+      setTimeout(() => el.imageLoading.classList.add('hidden'), 2000);
+    };
+    img.src = imageUrl;
   }
 
   function showComprehensionQuestions(questions) {
@@ -1378,13 +1378,25 @@
     el.readingTips.classList.remove('hidden');
   }
 
-  // --- Enhanced TTS Functions ---
+  function getPlainTextFromStory() {
+    return el.text.textContent || '';
+  }
+
+  function showVocabularyDefinition(word, definition) {
+    showTTSStatus(`📚 ${word.charAt(0).toUpperCase() + word.slice(1)}: ${definition}`, 4000, 'success');
+  }
+
+  function speakVocabularyWord(word, definition) {
+    const text = `${word}. ${definition}`;
+    speakWord(text);
+  }
+
+  // TTS Functions
   function updateTTSButtons(isPlaying, isPaused = false) {
     el.ttsPlay.disabled = isPlaying && !isPaused;
     el.ttsPause.disabled = !isPlaying;
     el.ttsStop.disabled = !isPlaying;
     
-    // Visual feedback
     el.ttsPlay.classList.toggle('playing', isPlaying && !isPaused);
     
     if (isPlaying && !isPaused) {
@@ -1396,62 +1408,45 @@
 
   function showTTSStatus(message, duration = 2000, type = 'default') {
     el.ttsStatus.textContent = message;
-    el.ttsStatus.className = `tts-status ${type}`;
-    el.ttsStatus.classList.add('show');
-    setTimeout(() => {
-      el.ttsStatus.classList.remove('show');
-    }, duration);
+    el.ttsStatus.className = `tts-status ${type} show`;
+    if (duration > 0) {
+      setTimeout(() => {
+        el.ttsStatus.classList.remove('show');
+      }, duration);
+    }
   }
 
-  async function speak(text) {
+  function speak(text) {
     if (!text || !text.trim()) return;
     
     stopTTS();
     
-    // Clean text of HTML and extra whitespace
     const cleanText = text.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
     if (!cleanText) return;
-
-    // Try ElevenLabs first if enabled and configured
-    if (state.useElevenLabs && state.elevenLabsApiKey) {
-      try {
-        const audioUrl = await generateElevenLabsAudio(cleanText, state.ageKey);
-        await playElevenLabsAudio(audioUrl);
-        return;
-      } catch (error) {
-        console.warn('ElevenLabs failed, falling back to browser TTS:', error);
-        // Continue to browser TTS fallback
-      }
-    }
-
-    // Browser TTS fallback
+    
     const utterance = new SpeechSynthesisUtterance(cleanText);
     state.currentUtterance = utterance;
     
-    // Configure voice settings
     if (state.voice) {
       utterance.voice = state.voice;
     }
     utterance.lang = 'en-US';
     
-    // Age-appropriate settings with more child-friendly parameters
     if (state.ageKey === 'evie') {
-      utterance.rate = Math.min(state.rate, 0.75); // Slower for 4-year-olds
-      utterance.pitch = 1.4; // Higher pitch for child-like sound
+      utterance.rate = Math.min(state.rate, 0.8);
+      utterance.pitch = 1.3;
       utterance.volume = 0.9;
     } else {
-      utterance.rate = Math.max(Math.min(state.rate, 1.0), 0.8); // Moderate pace for 7-8 year olds
-      utterance.pitch = 1.25; // Slightly higher pitch, still child-friendly
+      utterance.rate = Math.max(Math.min(state.rate, 1.1), 0.7);
+      utterance.pitch = 1.1;
       utterance.volume = 0.85;
     }
     
-    // Event handlers
     utterance.onstart = () => {
       state.isReading = true;
       updateTTSButtons(true);
       const readerName = state.ageKey === 'evie' ? 'Evie' : 'Annabella';
-      const voiceType = state.useElevenLabs ? 'AI Voice' : 'Browser Voice';
-      showTTSStatus(`📖 ${voiceType} reading for ${readerName}...`, 0);
+      showTTSStatus(`📖 Reading for ${readerName}...`, 0);
     };
     
     utterance.onend = () => {
@@ -1484,11 +1479,10 @@
       utterance.voice = state.voice;
     }
     utterance.lang = 'en-US';
-    utterance.rate = state.ageKey === 'evie' ? 0.65 : 0.75; // Even slower for individual words
-    utterance.pitch = state.ageKey === 'evie' ? 1.5 : 1.35; // Higher pitch for word pronunciation
+    utterance.rate = state.ageKey === 'evie' ? 0.7 : 0.8;
+    utterance.pitch = state.ageKey === 'evie' ? 1.4 : 1.2;
     utterance.volume = 0.8;
     
-    // Visual feedback for word pronunciation
     const wordElements = document.querySelectorAll('.word');
     wordElements.forEach(el => {
       if (el.textContent.trim() === cleanWord) {
@@ -1517,137 +1511,16 @@
   }
 
   function stopTTS() {
-    // Stop browser TTS
     if (synth.speaking || synth.paused) {
       if (synth.paused) synth.resume();
       synth.cancel();
     }
-    
-    // Stop ElevenLabs audio
-    if (state.currentAudio) {
-      state.currentAudio.pause();
-      state.currentAudio.currentTime = 0;
-      state.currentAudio = null;
-    }
-    
     state.isReading = false;
     state.currentUtterance = null;
     updateTTSButtons(false);
   }
 
-  // --- Voice Settings Modal ---
-  el.voiceSettings.addEventListener('click', () => {
-    el.voiceModal.classList.remove('hidden');
-    
-    // Set current selection
-    const voiceType = state.useElevenLabs ? 'elevenlabs' : 'browser';
-    document.querySelector(`input[name="voice-type"][value="${voiceType}"]`).checked = true;
-    
-    // Show/hide ElevenLabs setup
-    el.elevenLabsSetup.classList.toggle('hidden', voiceType !== 'elevenlabs');
-    
-    // Set API key if available
-    if (state.elevenLabsApiKey) {
-      el.apiKeyInput.value = state.elevenLabsApiKey;
-    }
-  });
-
-  el.closeVoiceModal.addEventListener('click', () => {
-    el.voiceModal.classList.add('hidden');
-  });
-
-  // Handle voice type selection
-  document.addEventListener('change', (e) => {
-    if (e.target.name === 'voice-type') {
-      const isElevenLabs = e.target.value === 'elevenlabs';
-      el.elevenLabsSetup.classList.toggle('hidden', !isElevenLabs);
-    }
-  });
-
-  el.saveVoiceSettings.addEventListener('click', () => {
-    const selectedVoice = document.querySelector('input[name="voice-type"]:checked').value;
-    const useElevenLabs = selectedVoice === 'elevenlabs';
-    
-    if (useElevenLabs) {
-      const apiKey = el.apiKeyInput.value.trim();
-      if (!apiKey) {
-        showTTSStatus('❌ Please enter your ElevenLabs API key', 3000, 'warning');
-        return;
-      }
-      
-      // Validate API key format (basic check)
-      if (!apiKey.match(/^sk-[a-zA-Z0-9]{32}$/)) {
-        showTTSStatus('❌ Invalid API key format', 3000, 'warning');
-        return;
-      }
-      
-      state.elevenLabsApiKey = apiKey;
-      localStorage.setItem('elevenlabs-api-key', apiKey);
-    }
-    
-    state.useElevenLabs = useElevenLabs;
-    localStorage.setItem('use-elevenlabs', useElevenLabs.toString());
-    
-    el.voiceModal.classList.add('hidden');
-    
-    const voiceType = useElevenLabs ? 'ElevenLabs AI' : 'Browser';
-    showTTSStatus(`✅ Using ${voiceType} voices`, 2000, 'success');
-  });
-
-  // Close modal when clicking outside
-  el.voiceModal.addEventListener('click', (e) => {
-    if (e.target === el.voiceModal) {
-      el.voiceModal.classList.add('hidden');
-    }
-  });
-
-  // --- TTS Control Event Listeners ---
-  el.ttsPlay.addEventListener('click', () => {
-    if (synth.paused) {
-      resumeTTS();
-    } else {
-      const text = el.text.textContent.trim();
-      if (text) speak(text);
-    }
-  });
-
-  el.ttsPause.addEventListener('click', pauseTTS);
-  el.ttsStop.addEventListener('click', stopTTS);
-
-  el.ttsRate.addEventListener('input', (e) => {
-    state.rate = parseFloat(e.target.value);
-    localStorage.setItem('tts-rate', state.rate.toString());
-    
-    // Show current speed
-    showTTSStatus(`Speed: ${Math.round(state.rate * 100)}%`, 1000);
-  });
-
-  // --- Cleanup and Accessibility ---
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') {
-      stopTTS();
-    }
-  });
-
-  window.addEventListener('beforeunload', stopTTS);
-
-  // Keyboard shortcuts
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      stopTTS();
-    } else if (e.key === ' ' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') {
-      e.preventDefault();
-      if (state.isReading) {
-        if (synth.paused) resumeTTS();
-        else pauseTTS();
-      } else {
-        const text = el.text.textContent.trim();
-        if (text) speak(text);
-      }
-    }
-  });
-
-  // Initialize TTS buttons state
+  // Initialize TTS buttons
   updateTTSButtons(false);
   </script>
 </body>
