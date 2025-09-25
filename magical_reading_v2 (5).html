@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Magical Reading Adventures — Enhanced V3</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #fff7fb;
+      --ink: #2c2152;
+      --muted: #6d5db3;
+      --brand-1: #ff69b4;
+      --brand-2: #9370db;
+      --brand-3: #ffd1dc;
+      --card: #ffffffee;
+      --focus: #222;
+      --shadow: 0 8px 20px rgba(147,112,219,.2);
+      --shadow-light: 0 4px 12px rgba(147,112,219,.15);
+      --border-radius: 1rem;
+      --border-radius-lg: 1.25rem;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+    
+    @media (prefers-color-scheme: dark){
+      :root{ 
+        --bg:#15121c; 
+        --ink:#f7f3ff; 
+        --muted:#c8bfff; 
+        --card:#1f1a2bee;
+        --shadow: 0 8px 20px rgba(0,0,0,.4);
+        --shadow-light: 0 4px 12px rgba(0,0,0,.3);
+      }
+    }
+    
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    html,body{
+      height:100%;
+      overflow-x: hidden;
+    }
+    
+    body{
+      margin:0;
+      font-family:"Baloo 2", system-ui, -apple-system, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(60% 60% at 20% 10%, rgba(255,105,180,.25), transparent 60%),
+        radial-gradient(50% 50% at 80% 0%, rgba(147,112,219,.25), transparent 60%),
+        var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .skip-link{
+      position:absolute;
+      left:-9999px;
+      top:auto;
+    }
+    .skip-link:focus{
+      left:1rem;
+      top:1rem;
+      background:#fff;
+      color:#000;
+      padding:.75rem 1rem;
+      border-radius:var(--border-radius);
+      z-index: 1000;
+    }
+
+    .site-header{
+      padding:1.5rem 1rem 1rem;
+      text-align:center;
+      position: relative;
+    }
+    
+    .brand-img{
+      width:min(240px, 80vw);
+      height:auto;
+      border-radius:var(--border-radius);
+      box-shadow:var(--shadow);
+      transition: transform 0.3s ease;
+    }
+    
+    .brand-img:hover {
+      transform: scale(1.02);
+    }
+    
+    h1{
+      margin:.75rem 0 0;
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .tagline{
+      color:var(--muted);
+      font-size: clamp(1rem, 3vw, 1.1rem);
+      margin: 0.5rem 0;
+      font-weight: 500;
+    }
+
+    .app{
+      max-width:1000px;
+      margin:0 auto;
+      padding:0 1rem 2rem;
+    }
+    
+    .panel{
+      background:var(--card);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow:var(--shadow);
+      border-radius:var(--border-radius-lg);
+      padding:1.5rem;
+      margin:1rem 0;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .panel-title{
+      margin:.25rem 0 1.25rem;
+      font-size: clamp(1.25rem, 4vw, 1.5rem);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .age-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+
+    .grid{
+      display:grid;
+      gap:1rem;
+      grid-template-columns:repeat(auto-fit,minmax(min(250px, 100%), 1fr));
+    }
+    
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+    }
+    
+    .chip{
+      font-size:clamp(1.1rem, 3.5vw, 1.25rem);
+      font-weight: 600;
+      padding:1.25rem 1.5rem;
+      border:0;
+      cursor:pointer;
+      border-radius:var(--border-radius);
+      background:linear-gradient(135deg,var(--brand-3), var(--brand-1));
+      color:#3a0a4b; 
+      box-shadow:var(--shadow-light); 
+      min-height:68px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    
+    .chip::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255,255,255,0.15);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    
+    .chip:hover::before,
+    .chip:focus::before {
+      opacity: 1;
+    }
+    
+    .chip:focus,.chip:hover{
+      outline:3px solid var(--focus);
+      outline-offset:3px;
+      transform:translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    
+    .chip:active {
+      transform: translateY(0);
+    }
+
+    .link{
+      background:none;
+      border:none;
+      color:var(--brand-2);
+      cursor:pointer;
+      font-size:1.1rem;
+      font-weight: 600;
+      margin-top:1rem;
+      padding: 0.75rem 0;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .link:focus{
+      outline:3px solid var(--focus);
+      outline-offset:3px;
+    }
+    .link:hover {
+      color: var(--brand-1);
+      transform: translateX(-2px);
+    }
+
+    .story-controls{
+      display:flex;
+      gap:.75rem;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom: 1.5rem;
+      padding: 1.25rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--border-radius);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .story-controls button{
+      width:56px;
+      height:56px;
+      border-radius:var(--border-radius);
+      border:0;
+      background:var(--brand-2);
+      color:#fff;
+      cursor:pointer;
+      box-shadow:var(--shadow-light);
+      font-size: 1.3rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .story-controls button:focus{
+      outline:3px solid var(--focus);
+      outline-offset:3px;
+    }
+    
+    .story-controls button:hover:not(:disabled) {
+      background: var(--brand-1);
+      transform: translateY(-1px);
+    }
+    
+    .story-controls button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+    
+    .story-controls button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      background: var(--muted);
+    }
+    
+    .story-controls button.playing {
+      background: var(--success);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .auto-play-indicator {
+      background: var(--warning);
+      color: white;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .slider{
+      display:flex;
+      align-items:center;
+      gap:.75rem;
+      color:var(--muted);
+      font-weight: 600;
+      margin-left: auto;
+    }
+    
+    .slider input {
+      width: 90px;
+      accent-color: var(--brand-2);
+    }
+    
+    @media (max-width: 600px) {
+      .story-controls {
+        justify-content: center;
+      }
+      .slider, .auto-play-indicator {
+        margin-left: 0;
+        margin-top: 0.75rem;
+      }
+    }
+
+    .story-figure{
+      margin:1.5rem 0;
+      text-align: center;
+      position: relative;
+    }
+    
+    .story-image{
+      width:100%;
+      max-width: 600px;
+      height:auto;
+      border-radius:var(--border-radius);
+      box-shadow:var(--shadow);
+      transition: transform 0.3s ease;
+    }
+    
+    .story-image:hover {
+      transform: scale(1.02);
+    }
+    
+    .image-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.9);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    
+    .hidden{display:none}
+
+    .story-text{
+      font-size:clamp(1.2rem, 4vw, 1.4rem);
+      line-height:1.8;
+      margin-bottom: 2rem;
+    }
+    
+    .story-text .word{
+      padding:0.25rem 0.35rem;
+      border-radius:0.5rem;
+      cursor:pointer;
+      transition: all 0.2s ease;
+      display: inline-block;
+      margin: 0.1rem;
+      position: relative;
+    }
+    
+    .story-text .word:hover,
+    .story-text .word:focus{
+      background:var(--brand-1);
+      color:#fff;
+      transform: scale(1.05);
+      z-index: 1;
+    }
+    
+    .story-text .word:active {
+      transform: scale(0.95);
+    }
+    
+    .story-text .word.speaking {
+      background: var(--success);
+      color: white;
+      animation: highlight 0.5s ease;
+    }
+    
+    @keyframes highlight {
+      0% { background: var(--warning); }
+      100% { background: var(--success); }
+    }
+
+    .loading{
+      font-size:1.2rem;
+      color:var(--brand-1);
+      text-align: center;
+      padding: 3rem 1rem;
+      font-weight: 600;
+    }
+    
+    .loading::after {
+      content: '✨';
+      display: inline-block;
+      animation: sparkle 1.2s ease-in-out infinite alternate;
+      margin-left: 0.5rem;
+    }
+    
+    @keyframes sparkle {
+      0% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+      100% { transform: scale(1.3) rotate(180deg); opacity: 1; }
+    }
+    
+    .site-footer{
+      padding:2rem 1rem;
+      text-align:center;
+      color:var(--muted);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(147,112,219,0.1);
+      margin-top: 2rem;
+    }
+
+    .tts-status {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--brand-2);
+      color: white;
+      padding: 1rem 1.25rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      font-size: 0.9rem;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      max-width: 250px;
+      text-align: center;
+    }
+    
+    .tts-status.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .tts-status.success {
+      background: var(--success);
+    }
+    
+    .tts-status.warning {
+      background: var(--warning);
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    @media (prefers-reduced-motion: reduce){ 
+      *{animation:none!important;transition:none!important;transform:none!important} 
+      .chip:hover, .chip:focus { transform: none; }
+      .story-text .word:hover, .story-text .word:focus { transform: none; }
+      .brand-img:hover, .story-image:hover { transform: none; }
+    }
+    
+    .sr-only{
+      position:absolute;
+      width:1px;
+      height:1px;
+      padding:0;
+      margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
+    }
+    
+    /* Touch-friendly improvements */
+    @media (hover: none) {
+      .chip:hover::before { opacity: 0; }
+      .story-text .word:hover { background: transparent; color: inherit; transform: none; }
+    }
+    
+    /* iPad specific improvements */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .app { padding: 0 2rem 2rem; }
+      .panel { padding: 2rem; }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .story-text { font-size: 1.5rem; }
+    }
+    
+    /* Large tablet and desktop */
+    @media (min-width: 1025px) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to story</a>
+  <header class="site-header">
+    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=200&fit=crop&crop=center" class="brand-img" alt="Magical unicorn with rainbow and sparkles" />
+    <h1>Magical Reading Adventures</h1>
+    <p class="tagline">Choose your reader and dive into stories made just for you!</p>
+  </header>
+
+  <main id="app" class="app" role="main">
+    <section id="age-selection" aria-label="Choose reader" class="panel">
+      <h2 class="panel-title">Who's ready for an adventure?</h2>
+      <div class="grid" role="list">
+        <button class="chip" data-age="evie" role="listitem">
+          <span class="age-indicator" aria-hidden="true">🌸</span>
+          Evie (Age 4)<br><small style="opacity:0.8;">Stories read aloud automatically</small>
+        </button>
+        <button class="chip" data-age="annabella" role="listitem">
+          <span class="age-indicator" aria-hidden="true">✨</span>
+          Annabella (Ages 7–8)<br><small style="opacity:0.8;">Read first, then listen</small>
+        </button>
+      </div>
+    </section>
+
+    <nav id="topics" class="panel hidden" aria-label="Choose a topic">
+      <div class="breadcrumb">
+        <span id="reader-name"></span> → Choose Topic
+      </div>
+      <h2 class="panel-title">Pick your adventure</h2>
+      <div id="topic-grid" class="grid" role="list"></div>
+      <button class="link" id="back-to-ages">← Back to readers</button>
+    </nav>
+
+    <section id="content" class="panel hidden" aria-live="polite">
+      <div class="breadcrumb">
+        <span id="story-breadcrumb"></span>
+      </div>
+      <div class="story-controls">
+        <button id="tts-play" aria-label="Read story aloud">▶</button>
+        <button id="tts-pause" aria-label="Pause reading" disabled>⏸</button>
+        <button id="tts-stop" aria-label="Stop reading" disabled>⏹</button>
+        <div id="auto-play-indicator" class="auto-play-indicator hidden">
+          🔊 Auto-play ON
+        </div>
+        <label class="slider">
+          Speed 
+          <input id="tts-rate" type="range" min="0.6" max="1.2" step="0.1" aria-label="Reading speed" />
+        </label>
+      </div>
+      <figure class="story-figure">
+        <div class="image-loading hidden" id="image-loading">Loading magical image...</div>
+        <img id="story-image" alt="" class="story-image hidden" />
+        <figcaption id="story-caption" class="sr-only"></figcaption>
+      </figure>
+      <div id="story-text" class="story-text"></div>
+      <div id="loading" class="loading hidden" role="status" aria-live="polite">Casting a spell for your story…</div>
+      <button class="link" id="back-to-topics">← Back to topics</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>Made with extra sparkles for Evie & Annabella ✨ © 2025</small>
+  </footer>
+
+  <div id="tts-status" class="tts-status" role="status" aria-live="polite"></div>
+
+  <script>
+  // --- Enhanced Stories with Precise Topic-Specific Images ---
+  const STORIES = {
+    evie: {
+      Unicorns: {
+        text: "Pink unicorn, pink unicorn, what do you see? I see a shiny horn sparkling at me. Jump jump, run run, fun fun! Say it with me: <b>u-ni-corn</b>. What rhymes with horn? (Try: corn!) Let's read it again together!",
+        imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&crop=center&q=unicorn+magical+fantasy"
+      },
+      Dolls: {
+        text: "Doll doll, pretty doll, with hair so long. Dress is purple, sing a song. Smile smile, play play, all day! Sound it out: <b>d-o-ll</b>. What color is your doll's dress? Let's imagine and read more!",
+        imageUrl: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&h=400&fit=crop&crop=center"
+      },
+      'Toy Babies': {
+        text: "Baby baby, cute cute, with bottle small. Laugh laugh, hug hug, love all! Sleep sleep, dream dream, sweet! Phonics fun: <b>b-a-by</b>. How do you care for a baby? Read and think!",
+        imageUrl: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=600&h=400&fit=crop&crop=center"
+      },
+      'Colors & Shapes': {
+        text: "Red red circle, round and bright. Blue blue square, what a sight! Yellow star, twinkle twinkle. Colors shapes, fun to mingle! Say: <b>red</b>, <b>blue</b>. What shape is a ball? Let's find out!",
+        imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&crop=center"
+      },
+      'Cute Animals': {
+        text: "Cat cat, meow meow, soft and fluffy. Dog dog, woof woof, so puffy! Bird bird, tweet tweet, fly high. Animals cute, oh my my! <b>C-a-t</b>, repeat! What animal says quack? Read on!",
+        imageUrl: "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=600&h=400&fit=crop&crop=center"
+      },
+      'Fairy Friends': {
+        text: "Fairy fairy, wings wings, sparkle bright. Fly fly, magic magic, day and night. Friend friend, play play, delight! <b>F-a-i-ry</b>, say it right. Who is your fairy friend? Let's story time!",
+        imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center"
+      },
+      'Magic Toys': {
+        text: "Toy toy, magic magic, bounce so high. Train train, choo choo, zoom by! Ball ball, roll roll, oh my! <b>M-a-gic</b>, try! What magic toy do you have? Read and dream!",
+        imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&crop=center"
+      },
+      'Happy Family': {
+        text: "Mom mom, dad dad, hug hug tight. Sister sister, brother brother, light light bright. Family family, love love, right! <b>F-a-m-i-ly</b>, sight! What makes your family happy? Share and read!",
+        imageUrl: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&h=400&fit=crop&crop=center"
+      }
+    },
+    annabella: {
+      'Unicorn Legends': {
+        text: "In ancient legends, unicorns had horns that could purify water and heal sickness. One story tells of a unicorn saving a village from poison. Fun fact: Unicorns symbolize purity in myths from Europe and Asia. Question: How might a unicorn help in real life today? Vocabulary builder: <b>leg-end</b>, <b>pu-ri-fy</b>. Discuss with a friend!",
+        imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&crop=center"
+      },
+      'Doll Adventures': {
+        text: "Dolls aren't just toys—they can inspire big adventures! Picture a doll sailing across oceans, discovering hidden treasures, and making allies. Educational tip: Playing with dolls builds empathy and storytelling skills. What adventure would your doll have? <b>Ad-ven-ture</b>, <b>em-pa-thy</b>. Think and create your own story!",
+        imageUrl: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&h=400&fit=crop&crop=center"
+      },
+      'Toy Baby Care': {
+        text: "Caring for toy babies teaches real-life skills like feeding, bathing, and comforting. In reality, babies grow from newborns to toddlers, learning to walk around 1 year old. Fact: Responsibility helps kids become independent. How does baby care change as they grow? <b>Re-spon-si-bil-i-ty</b>. Try role-playing!",
+        imageUrl: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=600&h=400&fit=crop&crop=center"
+      },
+      'Space Explorers': {
+        text: "Space explorers like astronauts travel to the moon and beyond. Mars is red from iron oxide, and Jupiter has a giant storm called the Great Red Spot. Fact: NASA plans human missions to Mars by 2030s. What would you pack for space? <b>As-tro-naut</b>, <b>plan-et</b>. Explore more!",
+        imageUrl: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=600&h=400&fit=crop&crop=center"
+      },
+      'Ocean Secrets': {
+        text: "Oceans hold secrets like bioluminescent creatures that glow in the dark. The Mariana Trench is the deepest point on Earth, deeper than Everest is tall. Fact: Over 80% of oceans are unexplored. Why do fish school together? For protection! <b>O-cean</b>, <b>bi-o-lu-mi-nes-cent</b>. Dive into learning!",
+        imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop&crop=center"
+      },
+      'Dinosaur Friends': {
+        text: "Dinosaurs like Velociraptors were smart hunters, while Brachiosaurus ate plants from tall trees. Fossils show they lived 65 million years ago. Fact: Birds are modern dinosaur relatives. If dinosaurs were friends, what games would they play? <b>Di-no-saur</b>, <b>fos-sil</b>. Imagine and discuss!",
+        imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&crop=center"
+      },
+      'Science Magic': {
+        text: "Science turns everyday things into magic, like making volcanoes with baking soda and vinegar—it's an acid-base reaction creating CO2 gas. Fact: This teaches chemistry basics. What 'magic' experiment can you do at home? <b>Sci-ence</b>, <b>re-ac-tion</b>. Experiment safely!",
+        imageUrl: "https://images.unsplash.com/photo-1532187643603-ba119ca4109e?w=600&h=400&fit=crop&crop=center"
+      },
+      'History Heroes': {
+        text: "History heroes like Harriet Tubman led people to freedom via the Underground Railroad. She made 13 missions, saving over 70 people. Fact: Heroes inspire change. Who is your history hero and why? <b>His-to-ry</b>, <b>he-ro</b>. Research and share!",
+        imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop&crop=center"
+      },
+      'Nature Detectives': {
+        text: "Nature detectives observe how bees pollinate flowers, helping plants grow fruit. Seasons change due to Earth's tilt. Fact: Trees can communicate through underground fungi networks. What nature mystery can you solve? <b>Na-ture</b>, <b>pol-li-nate</b>. Go outside and investigate!",
+        imageUrl: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=400&fit=crop&crop=center"
+      },
+      'Emotion Stories': {
+        text: "Emotions like joy or anger are part of being human. In a story, a kid felt anxious about school but talked to a friend and felt better. Fact: Naming emotions helps manage them. How do you handle sad feelings? <b>E-mo-tion</b>, <b>anx-ious</b>. Share your story!",
+        imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop&crop=center"
+      }
+    }
+  };
+
+  // --- App state & DOM elements ---
+  const el = {
+    ageSection: document.getElementById('age-selection'),
+    topicsPanel: document.getElementById('topics'),
+    topicGrid: document.getElementById('topic-grid'),
+    backToAges: document.getElementById('back-to-ages'),
+    content: document.getElementById('content'),
+    img: document.getElementById('story-image'),
+    caption: document.getElementById('story-caption'),
+    text: document.getElementById('story-text'),
+    loading: document.getElementById('loading'),
+    imageLoading: document.getElementById('image-loading'),
+    ttsPlay: document.getElementById('tts-play'),
+    ttsPause: document.getElementById('tts-pause'),
+    ttsStop: document.getElementById('tts-stop'),
+    ttsRate: document.getElementById('tts-rate'),
+    ttsStatus: document.getElementById('tts-status'),
+    readerName: document.getElementById('reader-name'),
+    storyBreadcrumb: document.getElementById('story-breadcrumb'),
+    autoPlayIndicator: document.getElementById('auto-play-indicator')
+  };
+
+  let state = {
+    ageKey: null,
+    subject: null,
+    voice: null,
+    rate: parseFloat(localStorage.getItem('tts-rate') || '0.8'),
+    isReading: false,
+    currentUtterance: null,
+    autoPlay: false
+  };
+
+  // Initialize rate slider
+  el.ttsRate.value = state.rate;
+
+  // --- Enhanced Voice Selection ---
+  const synth = window.speechSynthesis;
+  let voicesLoaded = false;
+
+  function loadVoices() {
+    if (voicesLoaded) return;
+    
+    const voices = synth.getVoices();
+    if (voices.length === 0) return;
+    
+    voicesLoaded = true;
+    
+    // Prioritize high-quality voices
+    const preferredVoices = [
+      'Google US English', 'Microsoft Zira', 'Microsoft Mark',
+      'Samantha', 'Alex', 'Victoria', 'Daniel', 'Karen'
+    ];
+    
+    // Find the best available voice
+    let bestVoice = null;
+    
+    for (let preferred of preferredVoices) {
+      bestVoice = voices.find(v => v.name.includes(preferred));
+      if (bestVoice) break;
+    }
+    
+    // Fallback to any English voice
+    if (!bestVoice) {
+      bestVoice = voices.find(v => 
+        v.lang.startsWith('en') && (v.localService || v.default)
+      ) || voices.find(v => v.lang.startsWith('en')) || voices[0];
+    }
+    
+    state.voice = bestVoice;
+    console.log('Selected voice:', bestVoice?.name || 'None available');
+  }
+
+  // Load voices when available
+  synth.onvoiceschanged = loadVoices;
+  loadVoices(); // Try immediately in case voices are already loaded
+
+  // --- Event Listeners ---
+  document.querySelectorAll('.chip[data-age]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.ageKey = btn.dataset.age;
+      state.autoPlay = (state.ageKey === 'evie'); // Auto-play for Evie only
+      showTopics(state.ageKey);
+    });
+  });
+
+  el.backToAges.addEventListener('click', () => {
+    stopTTS();
+    el.topicsPanel.classList.add('hidden');
+    el.content.classList.add('hidden');
+    el.ageSection.classList.remove('hidden');
+    el.topicGrid.innerHTML = '';
+    state.ageKey = null;
+    state.autoPlay = false;
+  });
+
+  document.getElementById('back-to-topics').addEventListener('click', () => {
+    stopTTS();
+    el.content.classList.add('hidden');
+    el.topicsPanel.classList.remove('hidden');
+  });
+
+  function showTopics(ageKey) {
+    el.ageSection.classList.add('hidden');
+    el.topicsPanel.classList.remove('hidden');
+    el.topicGrid.innerHTML = '';
+    
+    // Update breadcrumb
+    const readerName = ageKey === 'evie' ? '🌸 Evie' : '✨ Annabella';
+    el.readerName.textContent = readerName;
+    
+    const topics = Object.keys(STORIES[ageKey] || {});
+    topics.forEach(name => {
+      const b = document.createElement('button');
+      b.className = 'chip';
+      b.textContent = name;
+      b.addEventListener('click', () => loadStory(ageKey, name));
+      el.topicGrid.appendChild(b);
+    });
+  }
+
+  async function getStory({ ageKey, subject }) {
+    return STORIES[ageKey]?.[subject] ?? null;
+  }
+
+  async function loadStory(ageKey, subject) {
+    stopTTS();
+    state.subject = subject;
+    el.loading.classList.remove('hidden');
+    el.topicsPanel.classList.add('hidden');
+    el.content.classList.remove('hidden');
+    el.text.innerHTML = '';
+    el.img.classList.add('hidden');
+    el.imageLoading.classList.remove('hidden');
+    
+    // Update breadcrumb
+    const readerName = ageKey === 'evie' ? '🌸 Evie' : '✨ Annabella';
+    el.storyBreadcrumb.textContent = `${readerName} → ${subject}`;
+    
+    // Show/hide auto-play indicator
+    if (state.autoPlay) {
+      el.autoPlayIndicator.classList.remove('hidden');
+    } else {
+      el.autoPlayIndicator.classList.add('hidden');
+    }
+    
+    try {
+      // Add a brief loading animation
+      await new Promise(r => setTimeout(r, 600));
+      const data = await getStory({ ageKey, subject });
+      if (!data) throw new Error('No story found');
+
+      // Create clickable words
+      const words = data.text.split(/(\s+)/).map(segment => {
+        if (segment.trim()) {
+          const span = document.createElement('span');
+          span.className = 'word';
+          span.innerHTML = segment; // Preserve HTML like <b> tags
+          span.setAttribute('tabindex', '0');
+          span.setAttribute('role', 'button');
+          span.setAttribute('aria-label', `Click to hear: ${span.textContent}`);
+          span.addEventListener('click', () => speakWord(span.textContent));
+          span.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              speakWord(span.textContent);
+            }
+          });
+          return span.outerHTML;
+        }
+        return segment;
+      }).join('');
+
+      el.text.innerHTML = words;
+
+      // Load image with better loading states
+      if (data.imageUrl) {
+        const img = new Image();
+        img.onload = () => {
+          el.img.src = data.imageUrl;
+          el.img.alt = `${subject} illustration - a beautiful scene showing ${subject.toLowerCase()}`;
+          el.img.classList.remove('hidden');
+          el.imageLoading.classList.add('hidden');
+          el.caption.textContent = subject;
+        };
+        img.onerror = () => {
+          el.imageLoading.textContent = 'Image unavailable';
+          setTimeout(() => el.imageLoading.classList.add('hidden'), 2000);
+        };
+        img.src = data.imageUrl;
+      } else {
+        el.imageLoading.classList.add('hidden');
+      }
+      
+      // Auto-play for Evie after story loads
+      if (state.autoPlay && state.ageKey === 'evie') {
+        setTimeout(() => {
+          const text = el.text.textContent.trim();
+          if (text) {
+            showTTSStatus('✨ Starting story for Evie!', 2000);
+            speak(text);
+          }
+        }, 800);
+      } else if (state.ageKey === 'annabella') {
+        showTTSStatus('📖 Story ready! Read first, then press play to listen', 3000);
+      }
+      
+    } catch (err) {
+      el.text.textContent = `Oops! Magic mishap. Try again. (${err.message})`;
+      showTTSStatus('Story loading failed', 3000);
+    } finally {
+      el.loading.classList.add('hidden');
+    }
+  }
+
+  // --- Enhanced TTS Functions ---
+  function updateTTSButtons(isPlaying, isPaused = false) {
+    el.ttsPlay.disabled = isPlaying && !isPaused;
+    el.ttsPause.disabled = !isPlaying;
+    el.ttsStop.disabled = !isPlaying;
+    
+    // Visual feedback
+    el.ttsPlay.classList.toggle('playing', isPlaying && !isPaused);
+    
+    if (isPlaying && !isPaused) {
+      el.ttsPlay.setAttribute('aria-label', 'Reading...');
+    } else {
+      el.ttsPlay.setAttribute('aria-label', 'Read story aloud');
+    }
+  }
+
+  function showTTSStatus(message, duration = 2000, type = 'default') {
+    el.ttsStatus.textContent = message;
+    el.ttsStatus.className = `tts-status ${type}`;
+    el.ttsStatus.classList.add('show');
+    setTimeout(() => {
+      el.ttsStatus.classList.remove('show');
+    }, duration);
+  }
+
+  function speak(text) {
+    if (!text || !text.trim()) return;
+    
+    stopTTS();
+    
+    // Clean text of HTML and extra whitespace
+    const cleanText = text.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+    if (!cleanText) return;
+    
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    state.currentUtterance = utterance;
+    
+    // Configure voice settings
+    if (state.voice) {
+      utterance.voice = state.voice;
+    }
+    utterance.lang = 'en-US';
+    
+    // Age-appropriate settings
+    if (state.ageKey === 'evie') {
+      utterance.rate = Math.min(state.rate, 0.8);
+      utterance.pitch = 1.3;
+      utterance.volume = 0.9;
+    } else {
+      utterance.rate = Math.max(Math.min(state.rate, 1.1), 0.7);
+      utterance.pitch = 1.1;
+      utterance.volume = 0.85;
+    }
+    
+    // Event handlers
+    utterance.onstart = () => {
+      state.isReading = true;
+      updateTTSButtons(true);
+      const readerName = state.ageKey === 'evie' ? 'Evie' : 'Annabella';
+      showTTSStatus(`📖 Reading for ${readerName}...`, 0);
+    };
+    
+    utterance.onend = () => {
+      state.isReading = false;
+      state.currentUtterance = null;
+      updateTTSButtons(false);
+      showTTSStatus('✅ Story complete!', 2000, 'success');
+    };
+    
+    utterance.onerror = (event) => {
+      console.error('Speech synthesis error:', event.error);
+      state.isReading = false;
+      state.currentUtterance = null;
+      updateTTSButtons(false);
+      showTTSStatus('❌ Speech error occurred', 3000, 'warning');
+    };
+    
+    synth.speak(utterance);
+  }
+
+  function speakWord(word) {
+    if (!word || !word.trim()) return;
+    
+    const cleanWord = word.replace(/<[^>]*>/g, '').trim();
+    if (!cleanWord) return;
+    
+    const utterance = new SpeechSynthesisUtterance(cleanWord);
+    
+    if (state.voice) {
+      utterance.voice = state.voice;
+    }
+    utterance.lang = 'en-US';
+    utterance.rate = state.ageKey === 'evie' ? 0.7 : 0.8;
+    utterance.pitch = state.ageKey === 'evie' ? 1.4 : 1.2;
+    utterance.volume = 0.8;
+    
+    // Visual feedback for word pronunciation
+    const wordElements = document.querySelectorAll('.word');
+    wordElements.forEach(el => {
+      if (el.textContent.trim() === cleanWord) {
+        el.classList.add('speaking');
+        setTimeout(() => el.classList.remove('speaking'), 500);
+      }
+    });
+    
+    synth.speak(utterance);
+  }
+
+  function pauseTTS() {
+    if (synth.speaking && !synth.paused) {
+      synth.pause();
+      updateTTSButtons(true, true);
+      showTTSStatus('⏸ Reading paused', 1500, 'warning');
+    }
+  }
+
+  function resumeTTS() {
+    if (synth.paused) {
+      synth.resume();
+      updateTTSButtons(true, false);
+      showTTSStatus('▶ Resumed reading', 1500);
+    }
+  }
+
+  function stopTTS() {
+    if (synth.speaking || synth.paused) {
+      if (synth.paused) synth.resume();
+      synth.cancel();
+    }
+    state.isReading = false;
+    state.currentUtterance = null;
+    updateTTSButtons(false);
+  }
+
+  // --- TTS Control Event Listeners ---
+  el.ttsPlay.addEventListener('click', () => {
+    if (synth.paused) {
+      resumeTTS();
+    } else {
+      const text = el.text.textContent.trim();
+      if (text) speak(text);
+    }
+  });
+
+  el.ttsPause.addEventListener('click', pauseTTS);
+  el.ttsStop.addEventListener('click', stopTTS);
+
+  el.ttsRate.addEventListener('input', (e) => {
+    state.rate = parseFloat(e.target.value);
+    localStorage.setItem('tts-rate', state.rate.toString());
+    
+    // Show current speed
+    showTTSStatus(`Speed: ${Math.round(state.rate * 100)}%`, 1000);
+  });
+
+  // --- Cleanup and Accessibility ---
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      stopTTS();
+    }
+  });
+
+  window.addEventListener('beforeunload', stopTTS);
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      stopTTS();
+    } else if (e.key === ' ' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') {
+      e.preventDefault();
+      if (state.isReading) {
+        if (synth.paused) resumeTTS();
+        else pauseTTS();
+      } else {
+        const text = el.text.textContent.trim();
+        if (text) speak(text);
+      }
+    }
+  });
+
+  // Initialize TTS buttons state
+  updateTTSButtons(false);
+  </script>
+</body>
+</html>
